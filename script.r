@@ -35,8 +35,9 @@ dataset <- Values %>%
   #                             EndDate == "" ~ as.Date(NA),
   #                             TRUE ~  as.Date(EndDate, tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%Y-%M-%d", "%Y/%M/%d", "%d-%M-%Y", "%d/%M/%Y", "%d-%m-%Y", "%d/%m/%Y"), optional=TRUE)
   #                             )
-  mutate(Date = anytime::anydate(Date),
-        EndDate = anytime::anydate(EndDate)
+  mutate(
+    Date = anytime::anydate(Date),
+    EndDate = anytime::anydate(EndDate)
     ) %>% 
   ungroup()
   #mutate(Date = lubridate::ymd(Date),
@@ -90,9 +91,6 @@ if (length(unique(dataset$ClientID)) > 1) {
     
   dataset_referrals <- dataset %>%
     filter(Type == "Referral")
-  
-
-  
   
   dataset_contacts <- dataset %>% 
     filter(Type == "Contact") 
@@ -228,7 +226,8 @@ if (length(unique(dataset$ClientID)) > 1) {
   # Reshape the client df to a long format for plotting
   plot_df <- dataset_referrals %>% 
     select(ClientID, Label, Date, EndDate, Y_Pos, AdditionalTooltip) %>% 
-    left_join(referral_first_contact %>% select(Label, Date, ContactDate) %>% rename(FirstContact=ContactDate)) %>% 
+    left_join(referral_first_contact %>% select(Label, Date, ContactDate) %>% rename(FirstContact=ContactDate), 
+              by=c("Label", "Date")) %>% 
     # mutate(Wait = case_when(is.na(AppointmentDate) ~ "N/A", 
     #           TRUE ~ difftime(AppointmentDate, ReferralDate, unit="days") %>% as.character() %>% paste("days"))) %>%
     tidyr::gather(key="name", value="value", Date, EndDate)
@@ -288,7 +287,7 @@ if (length(unique(dataset$ClientID)) > 1) {
     
     shapes[[i]] <- list(type = "rect",
                         fillcolor = dataset_referrals[i,]$FillColour, 
-                        opacity = 0.6,
+                        opacity = 0.3,
                         x0 = dataset_referrals[i,]$Date, 
                         x1 = dataset_referrals[i,]$EndDate, 
                         xref = "x",
@@ -366,111 +365,118 @@ if (length(unique(dataset$ClientID)) > 1) {
   #These should not overlap, so can be boxes on a single line.
   
   dataset_wardstay <- dataset %>% 
-    filter(Type == "Inpatient")
+    mutate(EndDate = tidyr::replace_na(EndDate, Sys.Date())) %>%
+    filter(Type == "Inpatient") 
   
   ## Add in a box to show the time to the first contact in the referral
   
-  if (nrow(dataset_wardstay > 0)) {
-  
-  leave_space_for_wardstays <- 1
+  # This slightly elaborate series of checks is due to the package versions on
+  # the powerBI service. The error 
+  # Error in matrix(unlist(value, recursive = FALSE, use.names = FALSE), nrow = nr,  :
+  # is received when using nrow straight onto an empty dataframe on the service. 
+  # Converting it to a matrix first appears to allow the check to complete regardless
+  # of whether you are on older or newer versions of base R and dplyr/tibble
+  if (!is.data.frame(dataset_wardstay))  {
     
-  i <- i+1
-  m <- 1
-  
-  # Iterate through and generate one rectangle per stay
-  while (m < nrow(dataset_wardstay) + 1) {
+    leave_space_for_wardstays <- 0 
     
-      shapes[[i]] <- list(type = "rect",
-                          fillcolor = "#808080", 
-                           line = list(
-                             #color = rgb(170, 170, 170), 
-                                       dash= "dash" 
-                          #             opacity= client_referral_data_final[i,]$IsTeamOfInterestLineOpacity
-                          ), 
-                          opacity = 0.3,
-                          x0 = dataset_wardstay[m,]$Date, 
-                          x1 = dataset_wardstay[m,]$EndDate, 
-                          xref = "x",
-                          # Add so that there's a slight gap between each row
-                          y0 = max(dataset_referrals$Y_Pos) + 1 + 0.1, 
-                          y1 = max(dataset_referrals$Y_Pos) + 1 + 0.9, 
-                          yref = "y"
-      )
-      
-      
-      
-      
-      m <- m+1
-      
+    } else if (nrow(dataset_wardstay %>% as.matrix(.)) > 0) {
+    
+      leave_space_for_wardstays <- 1
+        
       i <- i+1
+      m <- 1
+      
+      # Iterate through and generate one rectangle per stay
+      while (m < nrow(dataset_wardstay) + 1) {
+        
+          shapes[[i]] <- list(type = "rect",
+                              fillcolor = "#808080", 
+                               line = list(
+                                 #color = rgb(170, 170, 170), 
+                                           dash= "dash" 
+                              #             opacity= client_referral_data_final[i,]$IsTeamOfInterestLineOpacity
+                              ), 
+                              opacity = 0.3,
+                              x0 = dataset_wardstay[m,]$Date, 
+                              x1 = dataset_wardstay[m,]$EndDate, 
+                              xref = "x",
+                              # Add so that there's a slight gap between each row
+                              y0 = max(dataset_referrals$Y_Pos) + 1 + 0.1, 
+                              y1 = max(dataset_referrals$Y_Pos) + 1 + 0.9, 
+                              yref = "y"
+          )
+          
+          m <- m+1
+          
+          i <- i+1
   
-  
-  }
-  
-  
-  fig <- fig %>%
-    add_trace(x= dataset_wardstay$Date,
-              y =  max(dataset_referrals$Y_Pos) + 1.2 ,
-              text=paste0(
-                "Inpatient Admission: ", 
-                dataset_wardstay$Date %>% format('%d %b %Y') %>% paste(dataset_wardstay$Label, .),
-                '</br></br>',
-               stringr::str_replace_all(dataset_wardstay$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
-              ),
-              hovertext="",
-              hoverinfo = 'text',
-              type="scatter",
-              mode="markers",
-              showlegend=FALSE,
-              #hovermode='none',
-              marker = list(
-                color = 'rgb(218, 41, 28)',
-                opacity=0,
-                alpha=0,
-                size = 10
-              )
-    )
-  
-  fig <- fig %>%
-    add_trace(x= dataset_wardstay$EndDate,
-              y =  max(dataset_referrals$Y_Pos) + 1.8 ,
-              text=paste0(
-                "Inpatient Discharge: ", 
-                dataset_wardstay$EndDate %>% format('%d %b %Y') %>% paste(dataset_wardstay$Label, .),
-                '</br></br>',
-              stringr::str_replace_all(dataset_wardstay$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
-              ),
-              hovertext="",
-              hoverinfo = 'text',
-              type="scatter",
-              mode="markers",
-              showlegend=FALSE,
-              #hovermode='none',
-              marker = list(
-                color = 'rgb(218, 41, 28)',
-                opacity=0,
-                alpha=0,
-                size = 10
-              )
-    )
-  
-  
-  # Add label indicating these are inpatient stays
-  
-  fig <- fig %>% 
-    add_annotations(
-      x = Sys.Date(),
-      y = max(dataset_referrals$Y_Pos) + 1.5,
-      text = "Inpatient\nStays",
-      xref = "x",
-      yref = "y",
-      showarrow = FALSE,
-      bgcolor="#ffffff",
-      opacity=0.6,
-      font = list(size=9)
-    )
-  
-  } else {
+    }
+    
+    
+    fig <- fig %>%
+      add_trace(x = dataset_wardstay$Date,
+                y =  max(dataset_referrals$Y_Pos) + 1.2 ,
+                text=paste0(
+                  "Inpatient Admission: ", 
+                  dataset_wardstay$Date %>% format('%d %b %Y') %>% paste(dataset_wardstay$Label, .),
+                  '</br></br>',
+                 stringr::str_replace_all(dataset_wardstay$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
+                ),
+                hovertext="",
+                hoverinfo = 'text',
+                type="scatter",
+                mode="markers",
+                showlegend=FALSE,
+                #hovermode='none',
+                marker = list(
+                  color = 'rgb(218, 41, 28)',
+                  opacity=0,
+                  alpha=0,
+                  size = 10
+                )
+      )
+    
+    fig <- fig %>%
+      add_trace(x= dataset_wardstay$EndDate,
+                y =  max(dataset_referrals$Y_Pos) + 1.8 ,
+                text=paste0(
+                  "Inpatient Discharge: ", 
+                  dataset_wardstay$EndDate %>% format('%d %b %Y') %>% paste(dataset_wardstay$Label, .),
+                  '</br></br>',
+                stringr::str_replace_all(dataset_wardstay$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
+                ),
+                hovertext="",
+                hoverinfo = 'text',
+                type="scatter",
+                mode="markers",
+                showlegend=FALSE,
+                #hovermode='none',
+                marker = list(
+                  color = 'rgb(218, 41, 28)',
+                  opacity=0,
+                  alpha=0,
+                  size = 10
+                )
+      )
+    
+    
+    # Add label indicating these are inpatient stays
+    
+    fig <- fig %>% 
+      add_annotations(
+        x = Sys.Date(),
+        y = max(dataset_referrals$Y_Pos) + 1.5,
+        text = "Inpatient\nStays",
+        xref = "x",
+        yref = "y",
+        showarrow = FALSE,
+        bgcolor="#ffffff",
+        opacity=0.6,
+        font = list(size=9)
+      )
+    
+  }  else {
     
     leave_space_for_wardstays <- 0
     
