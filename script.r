@@ -67,7 +67,16 @@ if (length(unique(dataset$ClientID)) > 1) {
 
   } else {
 
+    
+  #######################################  
   # Start by plotting referrals
+  ######################################
+    
+  # Referrals from different services can overlap, so they should be displayed on separate lines
+  # However, multiple referrals to the same service should not overlap. To show patterns of repeated
+  # service access, make these all visible on the same line.
+    
+    
   dataset_referrals <- dataset %>%
     filter(Type == "Referral")
   
@@ -327,9 +336,117 @@ if (length(unique(dataset$ClientID)) > 1) {
       font = list(size=9)
       ) 
   
+  
+  
+  
+  ###########################################
+  # Add in boxes indicating inpatient stays
+  ###########################################
+  #These should not overlap, so can be boxes on a single line.
+  
+  dataset_wardstay <- dataset %>% 
+    filter(Type == "Inpatient")
+  
+  ## Add in a box to show the time to the first contact in the referral
+  
+  if (nrow(dataset_wardstay > 0)) {
+  
+  i <- i+1
+  m <- 1
+  
+  # Iterate through and generate one rectangle per stay
+  while (m < nrow(dataset_wardstay) + 1) {
+    
+      shapes[[i]] <- list(type = "rect",
+                          fillcolor = "#808080", 
+                           line = list(
+                             #color = rgb(170, 170, 170), 
+                                       dash= "dash" 
+                          #             opacity= client_referral_data_final[i,]$IsTeamOfInterestLineOpacity
+                          ), 
+                          opacity = 0.3,
+                          x0 = dataset_wardstay[m,]$Date, 
+                          x1 = dataset_wardstay[m,]$EndDate, 
+                          xref = "x",
+                          # Add so that there's a slight gap between each row
+                          y0 = max(dataset_referrals$Y_Pos) + 1 + 0.1, 
+                          y1 = max(dataset_referrals$Y_Pos) + 1 + 0.9, 
+                          yref = "y"
+      )
+      
+      
+      
+      
+      m <- m+1
+      
+      i <- i+1
+  
+  
+  }
+  
+  
+  fig <- fig %>%
+    add_trace(x= dataset_wardstay$Date,
+              y =  max(dataset_referrals$Y_Pos) + 1.2 ,
+              text=paste0(
+                "Inpatient Admission: ", dataset_wardstay$Date %>% format('%d %b %Y') %>% paste(dataset_wardstay$Label, .)
+              ),
+              hovertext="",
+              type="scatter",
+              mode="markers",
+              showlegend=FALSE,
+              #hovermode='none',
+              marker = list(
+                color = 'rgb(218, 41, 28)',
+                opacity=0,
+                alpha=0,
+                size = 10
+              )
+    )
+  
+  fig <- fig %>%
+    add_trace(x= dataset_wardstay$EndDate,
+              y =  max(dataset_referrals$Y_Pos) + 1.8 ,
+              text=paste0(
+                "Inpatient Discharge: ", dataset_wardstay$EndDate %>% format('%d %b %Y') %>% paste(dataset_wardstay$Label, .)
+              ),
+              hovertext="",
+              type="scatter",
+              mode="markers",
+              showlegend=FALSE,
+              #hovermode='none',
+              marker = list(
+                color = 'rgb(218, 41, 28)',
+                opacity=0,
+                alpha=0,
+                size = 10
+              )
+    )
+  
+  
+  # Add label indicating these are inpatient stays
+  
+  fig <- fig %>% 
+    add_annotations(
+      x = Sys.Date(),
+      y = max(dataset_referrals$Y_Pos) + 1.5,
+      text = "Inpatient\nStays",
+      xref = "x",
+      yref = "y",
+      showarrow = FALSE,
+      bgcolor="#ffffff",
+      opacity=0.6,
+      font = list(size=9)
+    )
+  
+  }
+  
+  ####################################################################################
   # Add in additional point types for services which are accessed without a referral
+  ####################################################################################
+  
   dataset_unscheduled_contacts <- dataset %>% 
-    filter(Type != "Referral" & Type != "Contact")
+    filter(Type != "Referral" & Type != "Contact" & Type != "Inpatient")
   
   # Get the number of different types of unscheduled contact - they will each be displayed on a separate line
   types_unscheduled_contact <- dataset_unscheduled_contacts %>% distinct(Type)
@@ -346,7 +463,7 @@ if (length(unique(dataset$ClientID)) > 1) {
     
     fig <- fig %>%
       add_trace(x= dataset_unscheduled_contacts_single_type$Date,
-                y = max(dataset_referrals$Y_Pos) + contact_type_n + 0.5,
+                y = max(dataset_referrals$Y_Pos) + contact_type_n + 1.5,
                 text=paste0(
                   dataset_unscheduled_contacts_single_type$Date %>% format('%d %b %Y') %>% paste(dataset_unscheduled_contacts_single_type$Label, .)
                   ),
@@ -368,7 +485,9 @@ if (length(unique(dataset$ClientID)) > 1) {
             }
   }
   
-  # Add in individual contacts 
+  #####################################################
+  # Add in individual contacts relating to referrals
+  #####################################################
 
    dataset_contacts <- dataset %>% 
     left_join(dataset_referrals %>% select(Label, Y_Pos),
@@ -401,7 +520,10 @@ if (length(unique(dataset$ClientID)) > 1) {
       )
   }
 
+  ###################################
   # Add finishing touches
+  ###################################
+  
   fig <- layout(fig, 
                 shapes = shapes,
                 # hovermode='x unified',
@@ -478,7 +600,7 @@ if (length(unique(dataset$ClientID)) > 1) {
                   # Set default to just display last 2 years
                   autorange = FALSE,
                   # autorange = TRUE,
-                  range = c(1, dataset_referrals %>% select(Y_Pos) %>% max() + 3),
+                  range = c(1, dataset_referrals %>% select(Y_Pos) %>% max() + 4),
                   # Hide axis labels as they have no meaning for the graph
                   showticklabels = FALSE,
                   title=FALSE
