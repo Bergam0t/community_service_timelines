@@ -351,6 +351,8 @@ if (length(unique(dataset$ClientID)) > 1) {
   
   if (nrow(dataset_wardstay > 0)) {
   
+  leave_space_for_wardstays <- 1
+    
   i <- i+1
   m <- 1
   
@@ -439,7 +441,13 @@ if (length(unique(dataset$ClientID)) > 1) {
       font = list(size=9)
     )
   
+  } else {
+    
+    leave_space_for_wardstays <- 0
+    
   }
+  
+  
   
   ####################################################################################
   # Add in additional point types for services which are accessed without a referral
@@ -453,6 +461,7 @@ if (length(unique(dataset$ClientID)) > 1) {
   
   if (nrow(types_unscheduled_contact) >= 1) {
   
+    
   for (contact_type_n in 1:nrow(types_unscheduled_contact)) {
     
     what_contact_type <- (types_unscheduled_contact %>% pull())[contact_type_n]
@@ -463,7 +472,7 @@ if (length(unique(dataset$ClientID)) > 1) {
     
     fig <- fig %>%
       add_trace(x= dataset_unscheduled_contacts_single_type$Date,
-                y = max(dataset_referrals$Y_Pos) + contact_type_n + 1.5,
+                y = max(dataset_referrals$Y_Pos) + contact_type_n + leave_space_for_wardstays + 0.5,
                 text=paste0(
                   dataset_unscheduled_contacts_single_type$Date %>% format('%d %b %Y') %>% paste(dataset_unscheduled_contacts_single_type$Label, .)
                   ),
@@ -482,6 +491,24 @@ if (length(unique(dataset$ClientID)) > 1) {
                   )
                 )
                 )
+    
+    # Add label indicating these are inpatient stays
+    
+    fig <- fig %>% 
+      add_annotations(
+        x = Sys.Date(),
+        y = max(dataset_referrals$Y_Pos) + contact_type_n + leave_space_for_wardstays + 0.5,
+        text = what_contact_type %>% stringr::str_replace(" ", "\n"),
+        xref = "x",
+        yref = "y",
+        showarrow = FALSE,
+        bgcolor="#ffffff",
+        opacity=0.6,
+        font = list(size=9)
+      )
+    
+  
+    
             }
   }
   
@@ -490,7 +517,8 @@ if (length(unique(dataset$ClientID)) > 1) {
   #####################################################
 
    dataset_contacts <- dataset %>% 
-    left_join(dataset_referrals %>% select(Label, Y_Pos),
+    left_join(dataset_referrals %>% 
+                select(Label, Y_Pos),
               by="Label")
 
   if (nrow(dataset_contacts) >= 1) {
@@ -600,7 +628,12 @@ if (length(unique(dataset$ClientID)) > 1) {
                   # Set default to just display last 2 years
                   autorange = FALSE,
                   # autorange = TRUE,
-                  range = c(1, dataset_referrals %>% select(Y_Pos) %>% max() + 4),
+                  range = c(1, 
+                            dataset_referrals %>% select(Y_Pos) %>% max() + 
+                            leave_space_for_wardstays + 
+                            nrow(types_unscheduled_contact) + 
+                            1
+                            ),
                   # Hide axis labels as they have no meaning for the graph
                   showticklabels = FALSE,
                   title=FALSE
