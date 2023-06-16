@@ -407,10 +407,11 @@ if (length(unique(dataset$ClientID)) > 1) {
               text=paste0(
                 "Inpatient Admission: ", 
                 dataset_wardstay$Date %>% format('%d %b %Y') %>% paste(dataset_wardstay$Label, .),
-                '</br>'#,
-               # stringr::str_replace_all(dataset_wardstay$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
+                '</br></br>',
+               stringr::str_replace_all(dataset_wardstay$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
               ),
               hovertext="",
+              hoverinfo = 'text',
               type="scatter",
               mode="markers",
               showlegend=FALSE,
@@ -429,10 +430,11 @@ if (length(unique(dataset$ClientID)) > 1) {
               text=paste0(
                 "Inpatient Discharge: ", 
                 dataset_wardstay$EndDate %>% format('%d %b %Y') %>% paste(dataset_wardstay$Label, .),
-                '</br>'#,
-              #  stringr::str_replace_all(dataset_wardstay$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
+                '</br></br>',
+              stringr::str_replace_all(dataset_wardstay$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
               ),
               hovertext="",
+              hoverinfo = 'text',
               type="scatter",
               mode="markers",
               showlegend=FALSE,
