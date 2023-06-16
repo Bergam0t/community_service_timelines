@@ -21,9 +21,20 @@ dataset <- Values %>%
     #     TRUE ~ EndDate
     #     )
     #     ) %>%
-    mutate(Date = as.Date(Date),
-          EndDate = as.Date(EndDate)
-    ) 
+  # Safest to switch to rowwise for date conversion else a single failed parse can result in a full column of nulls
+  rowwise() %>%
+    mutate(Date = as.Date(Date, 
+                          tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%d/%m/%Y"), optional=TRUE)) %>% 
+  
+  mutate(EndDate = case_when(is.na(EndDate) ~ as.Date(NA),
+                              EndDate == "" ~ as.Date(NA),
+                              TRUE ~  as.Date(EndDate, tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%Y-%M-%d", "%Y/%M/%d", "%d-%M-%Y", "%d/%M/%Y", "%d-%m-%Y", "%d/%m/%Y"), optional=TRUE)
+    )
+    ) %>% 
+  ungroup()
+  #mutate(Date = lubridate::ymd(Date),
+  #       EndDate = lubridate::ymd(EndDate)
+  #) 
     #   mutate(Date = lubridate::parse_date_time2(Date, orders=c("ymd", "dmy")) %>% as.Date(),
     #       EndDate = lubridate::parse_date_time2(EndDate, orders=c("ymd", "dmy")) %>% as.Date()
     #   ) 
