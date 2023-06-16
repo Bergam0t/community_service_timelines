@@ -517,6 +517,7 @@ if (length(unique(dataset$ClientID)) > 1) {
   #####################################################
 
    dataset_contacts <- dataset %>% 
+    filter(Type == "Contact") %>%
     left_join(dataset_referrals %>% 
                 select(Label, Y_Pos),
               by="Label")
@@ -543,7 +544,8 @@ if (length(unique(dataset$ClientID)) > 1) {
                   line = list(
                     color = 'rgb(255, 255, 255)',
                     width = 2
-                  )
+                  ),
+                  symbol=ifelse(is.na(dataset_contacts$FaceToFaceContact)|dataset_contacts$FaceToFaceContact=="", "x", "circle")
                 )
       )
   }
