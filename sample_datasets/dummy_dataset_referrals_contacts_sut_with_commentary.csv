@@ -1,0 +1,31 @@
+ClientID,Type,Date,EndDate,Label,FaceToFaceContact,AdditionalTooltip
+brw381519,Referral,2019-04-13,2019-07-19,Cloud City Social Care,,Assigned Worker: Jane Fonda
+brw381519,Referral,2022-01-27,,Cloud City Social Care,,Assigned Worker: Jane Fonda
+brw381519,Referral,2019-06-14,2019-08-28,Cloud City Community Mental Health Team,,"Assigned Worker: Jane Fonda, Joni Mitchell\nReferral Reason: Anxiety"
+brw381519,Referral,2022-04-21,,Cloud City Community Mental Health Team,,Assigned Worker: Joni Mitchell\nReferral Reason: Depression
+brw381519,Referral,2023-03-28,,Cloud City ADHD Service,,
+brw381519,Referral,2023-03-21,,Cloud City Autism Service,,
+brw381519,Referral,2019-08-22,2020-04-21,Back To Work Service,,Goal: Volunteering
+brw381519,FRS Call,2018-05-15,,Crisis Telephone Line,,Duration: 5 mins
+brw381519,FRS Call,2019-09-16,,Crisis Telephone Line,,Duration: 5 mins
+brw381519,FRS Call,2019-10-18,,Crisis Telephone Line,,Duration: 5 mins
+brw381519,FRS Call,2020-03-30,,Crisis Telephone Line,,Duration: 25 mins
+brw381519,FRS Call,2021-05-05,,Crisis Telephone Line,,Duration: 45 mins
+brw381519,FRS Call,2021-05-19,,Crisis Telephone Line,,Duration: 35 mins
+brw381519,FRS Call,2021-01-14,,Crisis Telephone Line,,Duration: 15 mins
+brw381519,Contact,2019-07-16,,Cloud City Social Care,TRUE,Signposted to Citizens Advice
+brw381519,Contact,2022-03-30,,Cloud City Social Care,,Doing well - monitor and discharge
+brw381519,Contact,2019-06-18,,Cloud City Community Mental Health Team,,
+brw381519,Contact,2019-06-24,,Cloud City Community Mental Health Team,,
+brw381519,Contact,2019-07-16,,Cloud City Community Mental Health Team,TRUE,
+brw381519,Contact,2019-08-20,,Cloud City Community Mental Health Team,,
+brw381519,Contact,2022-05-30,,Cloud City Community Mental Health Team,TRUE,
+brw381519,Contact,2022-07-14,,Cloud City Community Mental Health Team,,
+brw381519,Contact,2023-05-30,,Cloud City Community Mental Health Team,,
+brw381519,Liaison Psychiatry,2023-03-24,,Cloud City Liaison Psychiatry,,
+brw381519,Contact,2019-12-01,,Back To Work Service,TRUE,
+brw381519,Contact,2020-04-12,,Back To Work Service,,
+brw381519,Inpatient,2021-03-19,2021-04-02,Sky House,,Admission Urgency: Urgent
+brw381519,Inpatient,2021-04-02,2021-04-08,Sea Ward,,Ward Transfer
+brw381519,Inpatient,2021-04-16,2021-05-09,Sun Ward,,Admission Urgency: Urgent
+brw381519,Inpatient,2021-05-09,2021-05-12,Sky House,,Ward Transfer
