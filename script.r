@@ -554,10 +554,11 @@ if (length(unique(dataset$ClientID)) > 1) {
                   dataset_contacts$Label %>% paste("Team:", .),
                   "<br>",
                   dataset_contacts$Date %>% format('%d %b %Y') %>% paste("Contact Date:", .),
-                  '</br>'#,
-               #   stringr::str_replace_all(dataset_contacts$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
+                  '</br>',
+                  stringr::str_replace_all(dataset_contacts$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
                 ),
                 hovertext="",
+                hoverinfo="text",
                 type="scatter",
                 mode="markers",
                 showlegend=FALSE,
