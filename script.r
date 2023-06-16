@@ -405,7 +405,10 @@ if (length(unique(dataset$ClientID)) > 1) {
     add_trace(x= dataset_wardstay$Date,
               y =  max(dataset_referrals$Y_Pos) + 1.2 ,
               text=paste0(
-                "Inpatient Admission: ", dataset_wardstay$Date %>% format('%d %b %Y') %>% paste(dataset_wardstay$Label, .)
+                "Inpatient Admission: ", 
+                dataset_wardstay$Date %>% format('%d %b %Y') %>% paste(dataset_wardstay$Label, .),
+                '</br>'#,
+               # stringr::str_replace_all(dataset_wardstay$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
               ),
               hovertext="",
               type="scatter",
@@ -424,7 +427,10 @@ if (length(unique(dataset$ClientID)) > 1) {
     add_trace(x= dataset_wardstay$EndDate,
               y =  max(dataset_referrals$Y_Pos) + 1.8 ,
               text=paste0(
-                "Inpatient Discharge: ", dataset_wardstay$EndDate %>% format('%d %b %Y') %>% paste(dataset_wardstay$Label, .)
+                "Inpatient Discharge: ", 
+                dataset_wardstay$EndDate %>% format('%d %b %Y') %>% paste(dataset_wardstay$Label, .),
+                '</br>'#,
+              #  stringr::str_replace_all(dataset_wardstay$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
               ),
               hovertext="",
               type="scatter",
@@ -488,13 +494,16 @@ if (length(unique(dataset$ClientID)) > 1) {
       add_trace(x= dataset_unscheduled_contacts_single_type$Date,
                 y = max(dataset_referrals$Y_Pos) + contact_type_n + leave_space_for_wardstays + 0.5,
                 text=paste0(
-                  dataset_unscheduled_contacts_single_type$Date %>% format('%d %b %Y') %>% paste(dataset_unscheduled_contacts_single_type$Label, .)
-                  ),
+                  paste(dataset_unscheduled_contacts_single_type$Label, dataset_unscheduled_contacts_single_type$Date %>% format('%d %b %Y')),
+                  '</br></br>',
+                  stringr::str_replace_all(dataset_unscheduled_contacts_single_type$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
+                ),
                 hovertext="",
                 type="scatter",
                 mode="markers",
                 showlegend=FALSE,
                 #hovermode='none',
+                hoverinfo="text",
                 marker = list(
                   color = 'rgb(218, 41, 28)',
                   opacity=0.3,
@@ -506,7 +515,7 @@ if (length(unique(dataset$ClientID)) > 1) {
                 )
                 )
     
-    # Add label indicating these are inpatient stays
+    # Add label indicating the unscheduled contact type 
     
     fig <- fig %>% 
       add_annotations(
@@ -544,7 +553,9 @@ if (length(unique(dataset$ClientID)) > 1) {
                 text=paste0(
                   dataset_contacts$Label %>% paste("Team:", .),
                   "<br>",
-                  dataset_contacts$Date %>% format('%d %b %Y') %>% paste("Contact Date:", .)
+                  dataset_contacts$Date %>% format('%d %b %Y') %>% paste("Contact Date:", .),
+                  '</br>'#,
+               #   stringr::str_replace_all(dataset_contacts$AdditionalTooltip, stringr::fixed("\\n"), "</br>")
                 ),
                 hovertext="",
                 type="scatter",
