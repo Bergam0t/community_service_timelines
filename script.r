@@ -68,6 +68,10 @@ if (length(unique(dataset$ClientID)) > 1) {
   } else {
 
     
+    if (!"AdditionalTooltip" %in% (dataset %>% colnames())) {
+      dataset <- dataset %>% mutate(AdditionalTooltip = "")
+    }
+    
   #######################################  
   # Start by plotting referrals
   ######################################
@@ -79,6 +83,9 @@ if (length(unique(dataset$ClientID)) > 1) {
     
   dataset_referrals <- dataset %>%
     filter(Type == "Referral")
+  
+
+  
   
   dataset_contacts <- dataset %>% 
     filter(Type == "Contact") 
@@ -213,7 +220,7 @@ if (length(unique(dataset$ClientID)) > 1) {
   
   # Reshape the client df to a long format for plotting
   plot_df <- dataset_referrals %>% 
-    select(ClientID, Label, Date, EndDate, Y_Pos) %>% 
+    select(ClientID, Label, Date, EndDate, Y_Pos, AdditionalTooltip) %>% 
     left_join(referral_first_contact %>% select(Label, Date, ContactDate) %>% rename(FirstContact=ContactDate)) %>% 
     # mutate(Wait = case_when(is.na(AppointmentDate) ~ "N/A", 
     #           TRUE ~ difftime(AppointmentDate, ReferralDate, unit="days") %>% as.character() %>% paste("days"))) %>%
@@ -235,7 +242,10 @@ if (length(unique(dataset$ClientID)) > 1) {
                            ,
                            
                            '</br>First Appointment In Referral: ', case_when(is.na(FirstContact) ~ "None",
-                                                           TRUE ~ format(FirstContact, "%d %b %Y")) #,
+                                                           TRUE ~ format(FirstContact, "%d %b %Y")),
+                           #"(", ,")",
+                           '</br>',
+                           stringr::str_replace_all(AdditionalTooltip, stringr::fixed("\\n"), "</br>")
                           #  
                           #  '</br>Wait: ', Wait,
                           #                                  
