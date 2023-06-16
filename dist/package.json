@@ -1,5 +1,5 @@
 {
-    "version": "0.0.30",
+    "version": "0.0.32",
     "author": {"name":"Sammi Rosser","email":"sammi.j.rosser@gmail.com"},
     "resources": [
         {
@@ -8,7 +8,7 @@
             "file": "resources/communityservicetimelinevisual484009F82D2A472AB4CB16FB715C5BEE.pbiviz.json"
         }
     ],
-    "visual": {"name":"communityservicetimelinevisual","displayName":"community_service_timeline_visual","guid":"communityservicetimelinevisual484009F82D2A472AB4CB16FB715C5BEE","visualClassName":"Visual","version":"0.0.30","description":"Display any overlapping timeline data - designed for community referrals and unscheduled appointments","supportUrl":"https://bergam0t.github.io/","gitHubUrl":"https://github.com/Bergam0t/community_service_timelines"},
+    "visual": {"name":"communityservicetimelinevisual","displayName":"community_service_timeline_visual","guid":"communityservicetimelinevisual484009F82D2A472AB4CB16FB715C5BEE","visualClassName":"Visual","version":"0.0.32","description":"Display any overlapping timeline data - designed for community referrals and unscheduled appointments","supportUrl":"https://bergam0t.github.io/","gitHubUrl":"https://github.com/Bergam0t/community_service_timelines"},
     "metadata": {
         "pbivizjson": {
             "resourceId": "rId0"

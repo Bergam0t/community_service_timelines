@@ -8,6 +8,8 @@ libraryRequireInstall("dplyr");
 libraryRequireInstall("tidyr");
 libraryRequireInstall("glue");
 libraryRequireInstall("lubridate");
+libraryRequireInstall("anytime");
+libraryRequireInstall("stringr");
 ####################################################
 
 ################### Actual code ####################
@@ -23,13 +25,18 @@ dataset <- Values %>%
     #     ) %>%
   # Safest to switch to rowwise for date conversion else a single failed parse can result in a full column of nulls
   rowwise() %>%
-    mutate(Date = as.Date(Date, 
-                          tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%d/%m/%Y"), optional=TRUE)) %>% 
-  
-  mutate(EndDate = case_when(is.na(EndDate) ~ as.Date(NA),
-                              EndDate == "" ~ as.Date(NA),
-                              TRUE ~  as.Date(EndDate, tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%Y-%M-%d", "%Y/%M/%d", "%d-%M-%Y", "%d/%M/%Y", "%d-%m-%Y", "%d/%m/%Y"), optional=TRUE)
-    )
+  #   mutate(Date = case_when(is.na(Date) ~ as.Date(NA),
+  #                           Date == "" ~ as.Date(NA),
+  #                           TRUE ~ as.Date(Date, tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%d/%m/%Y"), optional=TRUE)
+  #                           )
+  #          ) %>% 
+  # 
+  # mutate(EndDate = case_when(is.na(EndDate) ~ as.Date(NA),
+  #                             EndDate == "" ~ as.Date(NA),
+  #                             TRUE ~  as.Date(EndDate, tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%Y-%M-%d", "%Y/%M/%d", "%d-%M-%Y", "%d/%M/%Y", "%d-%m-%Y", "%d/%m/%Y"), optional=TRUE)
+  #                             )
+  mutate(Date = anytime::anydate(Date),
+        EndDate = anytime::anydate(EndDate)
     ) %>% 
   ungroup()
   #mutate(Date = lubridate::ymd(Date),
