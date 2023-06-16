@@ -243,7 +243,11 @@ if (length(unique(dataset$ClientID)) > 1) {
                            
                            '</br>First Appointment In Referral: ', case_when(is.na(FirstContact) ~ "None",
                                                            TRUE ~ format(FirstContact, "%d %b %Y")),
-                           #"(", ,")",
+                           
+                           case_when(is.na(FirstContact) ~ "",
+                                     name == "EndDate" ~ "",
+                                     TRUE ~ paste0(" (Wait of ", difftime(FirstContact, value) ," days)")),
+                           
                            '</br>',
                            stringr::str_replace_all(AdditionalTooltip, stringr::fixed("\\n"), "</br>")
                           #  
