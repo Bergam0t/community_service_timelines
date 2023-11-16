@@ -1,5 +1,17 @@
 # Community Service Timelines
+This custom PowerBI visual is designed to allow overlapping patient information to be represented visually.
+
+It was originally designed for use in a mental health service in the UK. The visual was used to show open referrals to a mental health service, which can be ongoing for several years. These are represented as coloured boxes, with the individual grey dots representing individual contacts. Additional information about each contact can be viewed by hovering over the contact. Inpatient stays can be included and are then represented as a grey box with a dotted outline.
+
 ![image](https://github.com/Bergam0t/community_service_timelines/assets/29951987/f2284fea-ae37-4f08-80a6-bc2044b12bfa)
+
+This was designed to 
+- aid in the management of complex cases by showing patterns of engagement that have previously not worked
+- improve patient experience by removing the need to explain their story as frequently
+- improve clinician efficiency and reduce cognitive load by presenting large amounts of information in a single page (rather than having to read pages of client history on an electronic patient record system
+
+The visual is designed to use a fairly simple set of information that is routinely recorded. 
+By combining this with row-based security in PowerBI, it is possible to give access to these records to only those who should be able to view them. 
 
 # Using the PowerBI custom visual
 
@@ -11,9 +23,6 @@ option ‘more visuals’ –&gt; ‘From my files’.
 
 ![](man/figures/README-example-powerbi-import-custom-visual.png)
 
-At present, the input format is very restrictive and expects **all** of
-
-TO BE COMPLETED
 
 Example datasets are given in **sample\_datasets/**
 
@@ -62,7 +71,8 @@ packages are currently suppported on the PowerBI service.
 
 ## How to tweak the plotly implementation
 
-The file `script.R` is the key file for All underlying files use the
+The file `script.R` is the key file that controls the plotting logic. 
+This plotly code could be extracted and reused in R markdown or an R Shiny dashboard. Alternatively, it could be ported into the Python version of Plotly with some changes to the syntax. 
 
 ## How to add additional PowerBI visual formatting options
 
