@@ -3,8 +3,6 @@ This custom PowerBI visual is designed to allow overlapping patient information 
 
 It was originally designed for use in a mental health service in the UK. The visual was used to show open referrals to a mental health service, which can be ongoing for several years. These are represented as coloured boxes, with the individual grey dots representing individual contacts. Additional information about each contact can be viewed by hovering over the contact. Inpatient stays can be included and are then represented as a grey box with a dotted outline.
 
-![image](https://github.com/Bergam0t/community_service_timelines/assets/29951987/f2284fea-ae37-4f08-80a6-bc2044b12bfa)
-
 This was designed to 
 - aid in the management of complex cases by showing patterns of engagement that have previously not worked
 - improve patient experience by removing the need to explain their story as frequently
