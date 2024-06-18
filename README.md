@@ -3,6 +3,8 @@ This custom PowerBI visual is designed to allow overlapping patient information 
 
 This kind of chart is often referred to as a [Theograph](https://imperialcollegehealthpartners.com/gps-and-commissioners-are-increasingly-interested-in-using-theographs/).
 
+Additional information on the application of Theographs, along with two case studies, is provided by the health economics unit [here](https://healtheconomicsunit.nhs.uk/wp-content/uploads/2024/05/Theograph-how-to-guide.pdf).
+
 It was originally designed for use in a mental health service in the UK. The visual was used to show open referrals to a mental health service, which can be ongoing for several years. These are represented as coloured boxes, with the individual grey dots representing individual contacts. Additional information about each contact can be viewed by hovering over the contact. Inpatient stays can be included and are then represented as a grey box with a dotted outline.
 
 This was designed to 
