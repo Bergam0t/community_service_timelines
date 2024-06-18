@@ -23,9 +23,13 @@ By combining this with row-based security in PowerBI, it is possible to give acc
 
 ### Display contacts that have taken part both as part of an ongoing referral period or as ad-hoc contacts with other services
 
+Boxes indicate the full duration of a referral - for example, the total time a patient was 'open' to a core mental health team, with actual contacts occuring at varying frequency in that time. 
+
 Grey overlays also give an indicator of the time from referral to first interaction.
 
 Contacts that do not form part of an ongoing referral journey - for example, that involve presentation to emergency departments or calls to an emergency helpline - are shown on their own line, with the relevant service name shown at the far right.
+
+Repeated referrals to the same service are shown on the same line, making repeated patterns of service access clearer
 
 ![image](https://github.com/Bergam0t/community_service_timelines/assets/29951987/afee2fc9-317d-4977-a01f-86947fc28517)
 
