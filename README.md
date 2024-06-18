@@ -19,7 +19,9 @@ By combining this with row-based security in PowerBI, it is possible to give acc
 
 ### Display contacts that have taken part both as part of an ongoing referral period or as ad-hoc contacts with other services
 
-Grey overlays also give an indicator of the time from referral to first interaction
+Grey overlays also give an indicator of the time from referral to first interaction.
+
+Contacts that do not form part of an ongoing referral journey - for example, that involve presentation to emergency departments or calls to an emergency helpline - are shown on their own line, with the relevant service name shown at the far right.
 
 ![image](https://github.com/Bergam0t/community_service_timelines/assets/29951987/afee2fc9-317d-4977-a01f-86947fc28517)
 
@@ -85,6 +87,8 @@ Please use the 'issues' tab to raise additional feature requests.
 
 # Using the PowerBI custom visual
 
+## Downloading and importing the visual
+
 The PowerBI visual itself can be downloaded from the **dist/** folder.
 Save the .pbix file in there to any location on your computer.
 
@@ -93,10 +97,15 @@ option ‘more visuals’ –&gt; ‘From my files’.
 
 ![](man/figures/README-example-powerbi-import-custom-visual.png)
 
+## Data format
 
 Example datasets are given in **sample\_datasets/**
 
 A csv template is given in **template\_dataset/**
+
+**COMING SOON**: An additional breakdown of all of the features supported and possible columns will be provided
+
+## Usage in PowerBI
 
 An example PowerBI file is available in **pbi\_example\_file/**
 
