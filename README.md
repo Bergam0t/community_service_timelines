@@ -47,6 +47,17 @@ By avoiding prescriptiveness in how the tooltip fields need to be structured, we
 
 ![image](https://github.com/Bergam0t/community_service_timelines/assets/29951987/3959d913-8276-466c-a697-4091f00d51b7)
 
+### Responsively resizes to fit available area
+
+![image](https://github.com/Bergam0t/community_service_timelines/assets/29951987/b0286b32-1629-4b0d-a8ce-e822e33ea7ad)
+
+![image](https://github.com/Bergam0t/community_service_timelines/assets/29951987/de696a8f-9b77-4416-96b9-158009cd92fc)
+
+### Fully integrated within PowerBI
+
+Being a custom visual powered behind-the-scenes by the R programming language, this visual fully responds to the PowerBI filter visuals, allowing the displayed data to be subsetted to only include certain services of choice.
+
+It can also be combined with features such as row-level security to ensure users can only see the data for patients they should be able to access.
 
 # Using the PowerBI custom visual
 
