@@ -1,12 +1,16 @@
 # Community Service Timelines
 This custom PowerBI visual is designed to allow overlapping patient information to be represented visually.
 
+This kind of chart is often referred to as a [Theograph](https://imperialcollegehealthpartners.com/gps-and-commissioners-are-increasingly-interested-in-using-theographs/).
+
 It was originally designed for use in a mental health service in the UK. The visual was used to show open referrals to a mental health service, which can be ongoing for several years. These are represented as coloured boxes, with the individual grey dots representing individual contacts. Additional information about each contact can be viewed by hovering over the contact. Inpatient stays can be included and are then represented as a grey box with a dotted outline.
 
 This was designed to 
 - aid in the management of complex cases by showing patterns of engagement that have previously not worked
 - improve patient experience by removing the need to explain their story as frequently
 - improve clinician efficiency and reduce cognitive load by presenting large amounts of information in a single page (rather than having to read pages of client history on an electronic patient record system
+
+It can be integrated into dashboards designed to aid interrogation of certain patient groups - for example, those with high A&E attendance, or an unusually high number of contacts, or even those with a rapidly escalating period of usage so that intervention can be better managed.
 
 The visual is designed to use a fairly simple set of information that is routinely recorded. 
 By combining this with row-based security in PowerBI, it is possible to give access to these records to only those who should be able to view them. 
@@ -58,6 +62,26 @@ By avoiding prescriptiveness in how the tooltip fields need to be structured, we
 Being a custom visual powered behind-the-scenes by the R programming language, this visual fully responds to the PowerBI filter visuals, allowing the displayed data to be subsetted to only include certain services of choice.
 
 It can also be combined with features such as row-level security to ensure users can only see the data for patients they should be able to access.
+
+### Flexible 
+Due to the flexibility of the data input, it could be used to integrate data across multiple kinds of services to give a holistic feature of a patient's joruney. 
+
+As the required dataset is simple, preprocessing could be used to anonymise the patient journey in some way - for example, 
+
+- by simplifying the name of the service that the patient is being referred to to remove geographical details
+- by adjusting start and end dates and exact contact dates
+- by minimising the additional information provided within tooltips
+
+In this way, the visual can be easily adapted for both clinical/operational and research purposes. 
+
+### Extensible
+
+Due to the open-source nature of the visual and the use of the common R programming language, it is possible for the visual to be adapted and extended. 
+
+# Proposed future additions
+- allowing an event date to be coded in to make exploring before/after impacts of a particular service on a pattern of care easier to do
+
+Please use the 'issues' tab to raise additional feature requests.
 
 # Using the PowerBI custom visual
 
