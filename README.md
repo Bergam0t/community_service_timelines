@@ -11,6 +11,43 @@ This was designed to
 The visual is designed to use a fairly simple set of information that is routinely recorded. 
 By combining this with row-based security in PowerBI, it is possible to give access to these records to only those who should be able to view them. 
 
+## Features
+
+### Display contacts that have taken part both as part of an ongoing referral period or as ad-hoc contacts with other services
+
+Grey overlays also give an indicator of the time from referral to first interaction
+
+![image](https://github.com/Bergam0t/community_service_timelines/assets/29951987/afee2fc9-317d-4977-a01f-86947fc28517)
+
+### Interactively zoom in to specific periods of interest
+
+Full interactivity allows zooming in to certain periods of interest on the timeline or by using the quick-access buttons at the top of the screen to jump to predefined time periods. 
+
+![image](https://github.com/Bergam0t/community_service_timelines/assets/29951987/02d0f825-e11a-44b5-98d7-a7b1459c14df)
+
+
+### Show inpatient stays alongside community referrals
+
+Inpatient stays have their own distinct row, so the lead-up to historical inpatient stays can be easily interrogated
+
+![image](https://github.com/Bergam0t/community_service_timelines/assets/29951987/2073c678-5526-4136-afd9-b807e6cfbf0f)
+
+
+### Distinguish between face-to-face (in-person) and other kinds of contacts
+
+An optional column allows for face-to-face contacts (circles) to be distinguished from other types of contact (crosses). 
+
+![image](https://github.com/Bergam0t/community_service_timelines/assets/29951987/00213b69-3e0f-409e-91b0-544b7f7e5076)
+
+### Include varied information in interactive tooltips 
+
+By avoiding prescriptiveness in how the tooltip fields need to be structured, we can enable different information to be contained in tooltips for different kinds of services. Processing can take place further upstream, meaning just the relevant information can be exposed at the end.
+
+![image](https://github.com/Bergam0t/community_service_timelines/assets/29951987/102bd7e6-9ffe-444a-b4ac-b4bcd2324cd0)
+
+![image](https://github.com/Bergam0t/community_service_timelines/assets/29951987/3959d913-8276-466c-a697-4091f00d51b7)
+
+
 # Using the PowerBI custom visual
 
 The PowerBI visual itself can be downloaded from the **dist/** folder.
